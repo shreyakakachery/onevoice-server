@@ -1,7 +1,12 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import http from "http";
+
+import { createTranscriptionSocket } from "./assemblyAi/transcriptionservice.js";
+
 const app = express();
+const server = http.createServer(app);
 
 const PORT = process.env.PORT || 8080;
 const BACKEND_URL = process.env.BACKEND_URL;
@@ -20,6 +25,8 @@ app.get("/", (_req, res) => {
 //   res.send("Transcribing!");
 // });
 
-app.listen(PORT, () => {
+createTranscriptionSocket(server);
+
+server.listen(PORT, () => {
   console.log(`running at ${BACKEND_URL}:${PORT}`);
 });
