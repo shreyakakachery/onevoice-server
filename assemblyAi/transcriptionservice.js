@@ -1,12 +1,12 @@
 import { AssemblyAI } from "assemblyai";
-import WebSocket from "ws";
+import { WebSocketServer } from "ws";
 
 // Create a WebSocket server that handles connections from frontend
 export function createTranscriptionSocket(server) {
-  const wss = new WebSocket.Server({ server });
+  const wss = new WebSocketServer({ server });
 
   const assemblyClient = new AssemblyAI({
-    apiKey: "b9179f5f7dc44e05bedd5785f36a9de7",
+    apiKey: "APIKEY - WILL BE SENT",
   });
 
   wss.on("connection", (ws) => {
@@ -19,6 +19,8 @@ export function createTranscriptionSocket(server) {
 
     // Forward AssemblyAI events to the frontend
     transcriber.on("transcript", (transcript) => {
+      console.log("Received from AssemblyAI:", transcript);
+
       ws.send(
         JSON.stringify({
           type: "transcript",
