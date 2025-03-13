@@ -3,12 +3,15 @@ import { WebSocketServer } from "ws";
 
 // Create a WebSocket server that handles connections from frontend
 export function createTranscriptionSocket(server) {
+  // attaches to existing http seerver, shares same port, accepts ws connection
   const wss = new WebSocketServer({ server });
 
+  // new client and api credentials
   const assemblyClient = new AssemblyAI({
-    apiKey: "APIKEY - WILL BE SENT",
+    apiKey: "b9179f5f7dc44e05bedd5785f36a9de7",
   });
 
+  // event listener, when frontend user connects creates a transcriber
   wss.on("connection", (ws) => {
     console.log("Client connected");
 
@@ -58,7 +61,7 @@ export function createTranscriptionSocket(server) {
       }
     });
 
-    // Handle client disconnect
+    // Handle client disconnect, closes API
     ws.on("close", () => {
       console.log("Client disconnected");
       transcriber.close();
