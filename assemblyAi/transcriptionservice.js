@@ -22,7 +22,7 @@ export function createTranscriptionSocket(server) {
       console.log("🔹 Received from AssemblyAI:", transcript);
     
       if (transcript.message_type === "FinalTranscript") { 
-        console.log("📤 Sending final transcript:", transcript.text);
+        console.log("Sending final transcript:", transcript.text);
         
         ws.send(
           JSON.stringify({
