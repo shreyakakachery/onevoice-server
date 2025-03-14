@@ -42,15 +42,20 @@ export function createTranscriptionSocket(server) {
 
     // Forward AssemblyAI events to the frontend
     transcriber.on("transcript", (transcript) => {
-      console.log("Received from AssemblyAI:", transcript);
-
-      ws.send(
-        JSON.stringify({
-          type: "transcript",
-          data: transcript,
-        })
-      );
+      console.log("🔹 Received from AssemblyAI:", transcript);
+    
+      if (transcript.message_type === "FinalTranscript") { 
+        console.log("Sending final transcript:", transcript.text);
+        
+        ws.send(
+          JSON.stringify({
+            type: "transcript",
+            data: transcript.text,  
+          })
+        );
+      }
     });
+    
 
     transcriber.on("error", (error) => {
       ws.send(
