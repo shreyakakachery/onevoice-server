@@ -26,6 +26,7 @@ app.get("/", (_req, res) => {
 // });
 
 createTranscriptionSocket(server);
+// pass the HTTP server to ws server so it can attach and listen to requests
 
 server.listen(PORT, () => {
   console.log(`running at ${BACKEND_URL}:${PORT}`);
