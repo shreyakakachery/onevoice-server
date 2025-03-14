@@ -6,7 +6,7 @@ export function createTranscriptionSocket(server) {
   const wss = new WebSocketServer({ server });
 
   const assemblyClient = new AssemblyAI({
-    apiKey: "APIKEY - WILL BE SENT",
+    apiKey: "104e9aa2224f41d18dc466fbebc332a4",
   });
 
   wss.on("connection", (ws) => {
@@ -19,15 +19,20 @@ export function createTranscriptionSocket(server) {
 
     // Forward AssemblyAI events to the frontend
     transcriber.on("transcript", (transcript) => {
-      console.log("Received from AssemblyAI:", transcript);
-
-      ws.send(
-        JSON.stringify({
-          type: "transcript",
-          data: transcript,
-        })
-      );
+      console.log("🔹 Received from AssemblyAI:", transcript);
+    
+      if (transcript.message_type === "FinalTranscript") { 
+        console.log("📤 Sending final transcript:", transcript.text);
+        
+        ws.send(
+          JSON.stringify({
+            type: "transcript",
+            data: transcript.text,  
+          })
+        );
+      }
     });
+    
 
     transcriber.on("error", (error) => {
       ws.send(
