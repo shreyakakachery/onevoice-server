@@ -4,6 +4,7 @@ import cors from "cors";
 import http from "http";
 
 import { createTranscriptionSocket } from "./assemblyAi/transcriptionservice.js";
+// WS NEEDS HTTP server to attach to; not Express
 
 const app = express();
 const server = http.createServer(app);
@@ -13,7 +14,6 @@ const BACKEND_URL = process.env.BACKEND_URL;
 
 // MIDDLEWARE
 app.use(express.json());
-// app.use(cors({ origin: process.env.CORS_ORIGIN }));
 app.use(cors());
 
 // ALL ROUTES
